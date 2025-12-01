@@ -1,0 +1,35 @@
+/* Шапка */
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px 32px;
+  background: #111;
+  color: #fff;
+}
+
+.logo {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* nav по центру между логотипом и "пустым" блоком справа */
+
+.nav {
+  flex: 1;
+  text-align: center;
+}
+
+.header-spacer {
+  width: 80px; /* примерно ширина логотипа для симметрии */
+}
+
+.nav-link {
+  margin: 0 16px;
+  opacity: 0.7;
+}
+
+.nav-link.active {
+  opacity: 1;
+  font-weight: 600;
+}
