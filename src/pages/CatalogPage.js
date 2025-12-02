@@ -5,12 +5,13 @@ import ProductForm from "../components/catalog/ProductForm";
 import SortSelect from "../components/catalog/SortSelect";
 import "../styles/catalog.css";
 
-// картинки товаров
+// Изображения товаров
 import nikeAirMax90 from "../assets/images/Nike_Air_Max_90.jpg";
 import theNorthFaceHoodie from "../assets/images/The_North_Face_Essential_Hoodie.jpg";
 import tommyTee from "../assets/images/Tommy_Hilfiger_Classic_Tee.png";
 import vansSweatshirt from "../assets/images/Vans_Spray_On_Loose_Crew.png";
 
+// Список категорий — для выбора в форме и отображения в списке товаров
 const CATEGORIES = [
   { value: "zhenskaya-odezhda", label: "Женская одежда" },
   { value: "muzhskaya-odezhda", label: "Мужская одежда" },
@@ -21,11 +22,13 @@ const CATEGORIES = [
   { value: "rasprodazha", label: "Распродажа" },
 ];
 
+// Возвращает читаемое название категории по её value
 const getCategoryLabel = (value) => {
   const found = CATEGORIES.find((c) => c.value === value);
   return found ? found.label : value;
 };
 
+// Начальный набор товаров
 const initialProducts = [
   {
     id: 1,
@@ -73,6 +76,7 @@ const initialProducts = [
   },
 ];
 
+// Варианты сортировки каталога
 const sortOptions = [
   { value: "name-asc", label: "По названию (А-Я)" },
   { value: "name-desc", label: "По названию (Я-А)" },
@@ -80,10 +84,15 @@ const sortOptions = [
   { value: "price-desc", label: "По цене (сначала дорогие)" },
 ];
 
+// Главный компонент страницы каталога
 function CatalogPage() {
+  // состояние товаров
   const [products, setProducts] = useState(initialProducts);
+
+  // выбранный тип сортировки
   const [sort, setSort] = useState("name-asc");
 
+  // состояние формы добавления товара
   const [formData, setFormData] = useState({
     name: "",
     slug: "",
@@ -95,10 +104,13 @@ function CatalogPage() {
     imagePreview: "",
   });
 
+  // ошибки формы
   const [errors, setErrors] = useState({});
+
+  // ключ для сброса input type="file"
   const [imageInputKey, setImageInputKey] = useState(0);
 
-  // показываем только опубликованные товары
+  // useMemo - сортируем и фильтруем только опубликованные товары
   const sortedProducts = useMemo(() => {
     const published = products.filter((p) => p.isPublished);
     const sorted = [...published];
@@ -123,6 +135,7 @@ function CatalogPage() {
     return sorted;
   }, [products, sort]);
 
+  // обновление полей формы (универсальный обработчик)
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -132,6 +145,7 @@ function CatalogPage() {
     }));
   };
 
+  // загрузка изображения + предпросмотр
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -147,6 +161,7 @@ function CatalogPage() {
     setErrors((prev) => ({ ...prev, image: undefined }));
   };
 
+  // валидация формы
   const validate = () => {
     const newErrors = {};
 
@@ -185,10 +200,12 @@ function CatalogPage() {
     return Object.keys(newErrors).length === 0;
   };
 
+  // отправка формы - добавление нового товара
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
 
+    // создаём объект нового товара
     const newProduct = {
       id: Date.now(),
       name: formData.name.trim(),
@@ -200,8 +217,10 @@ function CatalogPage() {
       isPublished: formData.isPublished,
     };
 
+    // добавляем товар в список
     setProducts((prev) => [...prev, newProduct]);
 
+    // очищаем форму
     setFormData({
       name: "",
       slug: "",
@@ -221,10 +240,12 @@ function CatalogPage() {
       <Header />
 
       <main className="main">
+        {/* каталог товаров */}
         <section className="catalog">
           <div className="catalog-header">
             <h1>Каталог товаров</h1>
 
+            {/* селект сортировки */}
             <SortSelect
               sort={sort}
               onChange={setSort}
@@ -232,12 +253,14 @@ function CatalogPage() {
             />
           </div>
 
+          {/* список товаров */}
           <ProductList
             products={sortedProducts}
             getCategoryLabel={getCategoryLabel}
           />
         </section>
 
+        {/* форма добавления товара */}
         <section className="form-section">
           <h2>Добавить товар</h2>
           <ProductForm

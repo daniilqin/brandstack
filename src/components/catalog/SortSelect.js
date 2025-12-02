@@ -1,5 +1,6 @@
 import React from "react";
 
+// Компонент выпадающего списка сортировки товаров
 function SortSelect({ sort, onChange, options }) {
   return (
     <div className="sort">

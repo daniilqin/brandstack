@@ -1,5 +1,6 @@
 import React from "react";
 
+// Форма добавления товара
 function ProductForm({
   formData,
   errors,

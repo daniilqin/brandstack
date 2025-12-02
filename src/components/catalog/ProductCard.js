@@ -1,5 +1,6 @@
 import React from "react";
 
+// Компонент карточки товара
 function ProductCard({ product, categoryLabel }) {
   return (
     <article className="product-card">

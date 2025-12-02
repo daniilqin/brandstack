@@ -1,6 +1,7 @@
 import React from "react";
 import ProductCard from "./ProductCard";
 
+// Компонент списка товаров
 function ProductList({ products, getCategoryLabel }) {
   return (
     <div className="products-grid">

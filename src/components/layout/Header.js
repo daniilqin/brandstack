@@ -1,6 +1,7 @@
 import React from "react";
 import "../../styles/layout.css";
 
+// Компонент шапки сайта
 function Header() {
   return (
     <header className="header">
